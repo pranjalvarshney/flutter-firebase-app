@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:ninja_brew_crew/services/auth.dart';
+import 'package:ninja_brew_crew/shared/loading.dart';
 
 class SignIn extends StatefulWidget {
-  Function toggle;
+  final Function toggle;
 
   SignIn({this.toggle});
 
@@ -17,10 +18,11 @@ class _SignInState extends State<SignIn> {
   String email = "";
   String passwd = "";
   String error = "";
+  bool loadingStatus = false;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return loadingStatus ? Loading() : Scaffold(
         appBar: AppBar(
           title: Text("SignIn"),
           actions: <Widget>[
@@ -86,10 +88,17 @@ class _SignInState extends State<SignIn> {
                         child: FlatButton(
                           onPressed: () async {
                             if (_formKey.currentState.validate()) {
+                              setState(() {
+                                loadingStatus = true;
+                              });
                               dynamic result = await _auth
                                   .signInWithEmailAndPassword(email, passwd);
-                              if (result == null) {
+                                                                  print(result);
+
+                              if(result == null) {
+                                print("hi there it s me 2 adasd");
                                 setState(() {
+                                  loadingStatus = false;
                                   error = "Enter valid details";
                                 });
                               }

@@ -1,6 +1,7 @@
 import "package:firebase_auth/firebase_auth.dart";
 import 'package:ninja_brew_crew/models/user.dart';
 import 'package:ninja_brew_crew/screens/notloggedin/signin.dart';
+import 'package:ninja_brew_crew/services/database.dart';
 
 class AuthService{
 
@@ -42,7 +43,7 @@ class AuthService{
     
     } catch (e) {
       print(e.toString());
-      return e;
+      return null;
     }
 
   }
@@ -54,10 +55,13 @@ class AuthService{
     try {
       AuthResult result = await _auth.createUserWithEmailAndPassword(email: email, password: password);
       FirebaseUser user = result.user;
+
+      await DatabaseService(uid: user.uid).updateUserData("0", "New member", 100);
+
       return _userFromFirebase(user);
     } catch (e) {
       print(e.toString());
-      return e;
+      return null;
     }
   }
 

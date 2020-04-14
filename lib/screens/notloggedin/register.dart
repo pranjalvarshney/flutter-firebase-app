@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:ninja_brew_crew/services/auth.dart';
+import 'package:ninja_brew_crew/shared/loading.dart';
 
 class Register extends StatefulWidget {
-  Function toggle;
+  final Function toggle;
 
   Register({this.toggle});
 
@@ -16,11 +17,12 @@ class _RegisterState extends State<Register> {
 
   String email = "";
   String passwd = "";
-  String error = "";
+  String errorString = "";
+  bool loadingStatus = false;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return loadingStatus ? Loading() : Scaffold(
         appBar: AppBar(
           title: Text("Register"),
           actions: <Widget>[
@@ -72,14 +74,16 @@ class _RegisterState extends State<Register> {
                   FlatButton(
                     onPressed: () async {
                       if (_formKey.currentState.validate()) {
+                        setState(() {
+                          loadingStatus = true;
+                        });
                         dynamic result =
                             await _auth.registerWithEmailAndPass(email, passwd);
                         if(result == null){
                           setState(() {
-                            error = "Please enter a valid e-mail";
+                            errorString = "Please enter a valid e-mail";
+                            loadingStatus = false;
                           });
-                        }else{
-
                         }
                       }
                       // print(email);
@@ -92,7 +96,7 @@ class _RegisterState extends State<Register> {
                     color: Colors.brown,
                   ),
                   SizedBox(height: 12,),
-                  Text(error, style: TextStyle(color: Colors.red),)
+                  Text(errorString, style: TextStyle(color: Colors.red),)
                 ],
               )),
         )))));
