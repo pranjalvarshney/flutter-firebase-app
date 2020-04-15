@@ -1,6 +1,6 @@
 # Brew Crew App
 ### Flutter Firebase Application
-##Features
+### Features
   - Login
   - Register
   - Update Data
