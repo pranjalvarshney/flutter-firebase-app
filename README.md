@@ -1,7 +1,10 @@
-# ninja_brew_crew
-
-A new Flutter project.
-
+# Brew Crew App
+### Flutter Firebase Application
+  ###Features
+  - Login
+  - Register
+  - Update Data
+  
 ## Getting Started
 
 This project is a starting point for a Flutter application.
